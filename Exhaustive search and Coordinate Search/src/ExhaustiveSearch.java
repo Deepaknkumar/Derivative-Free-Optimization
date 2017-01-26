@@ -69,7 +69,7 @@ public class ExhaustiveSearch {
                 }
                 fminData.add(fmin);
                 fevalData.add(feval);
-                System.out.println("Iteration " +i+","+j+" is running, fmin is "+fmin+ " at "+feval + "\n");
+                //System.out.println("Iteration " +i+","+j+" is running, fmin is "+fmin+ " at "+feval + "\n");
             }
         }
         return fmin;
@@ -88,7 +88,7 @@ public class ExhaustiveSearch {
                 }
                 fminCData.add(fminC);
                 fevalCData.add(feval);
-                System.out.println("Iteration " + i + "," + j + " is running, fmin is " + fminC + " at " + feval + "\n");
+                //System.out.println("Iteration " + i + "," + j + " is running, fmin is " + fminC + " at " + feval + "\n");
             }
         }
         return fminC;
