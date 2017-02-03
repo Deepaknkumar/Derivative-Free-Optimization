@@ -7,7 +7,7 @@ public class PointND {
 
     public PointND(int dim){
         this.dim = dim;
-        this.point = new double[dim];
+        //this.point = new double[dim];
         this.point = initPoint(dim);
     }
 
@@ -24,4 +24,17 @@ public class PointND {
         return initialPoint;
     }
 
+    public PointND ComputeSum(PointND p2){
+        PointND pSum = new PointND(p2.dim);
+        for(int i=0;i<p2.dim;i++){
+            pSum.point[i] = this.point[i] + p2.point[i];
+        }
+        return pSum;
+    }
+
+    public void ComputeMultiplication(double val){
+        for(int i=0;i<dim;i++){
+            this.point[i] = val*this.point[i];
+        }
+    }
 }
