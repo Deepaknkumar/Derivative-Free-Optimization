@@ -6,8 +6,9 @@ import java.util.ArrayList;
 public class Simplex {
     public PointND[] points; // = new ArrayList<PointND>();
 
-    public Simplex(PointND[] simplex){              // General constructor
-        this.points = simplex;
+    public Simplex(PointND[] points){              // General constructor
+
+        this.points = points;
     }
 
     public Simplex(double theta){                   // Constructor specific for q5_9
@@ -34,6 +35,21 @@ public class Simplex {
         tmpSum.ComputeMultiplication(1.0/(points.length-1));
         centroid = tmpSum;
         return centroid;
+    }
+
+    public double ComputeVolume(Simplex Y){
+
+        return 0;
+    }
+
+    public double FindDiameter(Simplex Y){
+
+        return 0;
+    }
+
+    public double ComputeNormalizedVolume(Simplex Y){
+
+        return 0;
     }
 
 }
