@@ -1,4 +1,4 @@
-function[funcValues] = NMAlgorithm(Y0)
+function[funcValues,xValues] = NMAlgorithm(Y0)
 
 %% Initialization
 gamma = 1/2;        % Shrink Parameter
@@ -9,6 +9,7 @@ maxiter = 1000;
 
 %% Algorithm Parameters
 funcValues = [];
+xValues = [];
 N = size(Y0,1);
 fk = [];
 for i=1:N+1
@@ -84,6 +85,7 @@ for k=1:maxiter
     fkworst = fk(end);
     Yk = Yk(:,I);
     funcValues(k,:) = fk;
+    xValues = [xValues;(Yk(:,1))']
 end
 
 end
