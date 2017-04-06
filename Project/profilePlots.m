@@ -1,0 +1,258 @@
+%% Profile Plots
+% Please run the following programs to obtain all the variables in
+% workspace:-
+% 1. NelderMeadImplementation.mm
+% 2. GeneralizedPatternSearchImplementation.m
+% 3. ModelBasedDescentImplementation.m
+
+%% Initial Parameters
+tao = .1;
+
+%% Performance Profile
+fb = [];
+fb(1) = functionsList([1;1],'Rosenbrock');
+fb(2) = functionsList([1;1],'Cube');
+fb(3) = functionsList([3;0.5],'Beale');
+fb(4) = functionsList([1;10;1],'ModifiedBox');
+fb(5) = functionsList([0.192833;.190836;.123117;.135766],'KowalikOsborne');
+fb(6) = functionsList([0.1927311;.1942269;.1244938;.1371652],'KowalikOsborne');
+fb(7) = functionsList([0,0,0,0],'Powell4Variable');
+
+%% f bests for Nelder Mead
+fbNM = [];
+fbNM(1) = NMfbestRB;
+fbNM(2) = NMfbestCube;
+fbNM(3) = NMfbestBeale;
+fbNM(4) = NMfbestmBox;
+fbNM(5) = NMfbestKO;
+fbNM(6) = NMfbestKO2;
+fbNM(7) = NMfbestp4v;
+
+fNM0 = [];
+fbNM0(1) = NMfvRB(1,1);
+fbNM0(2) = NMfvCube(1,1);
+fbNM0(3) = NMfvBeale(1,1);
+fbNM0(4) = NMfvmBox(1,1);
+fbNM0(5) = NMfvKO(1,1);
+fbNM0(6) = NMfvKO2(1,1);
+fbNM0(7) = NMfvp4v(1,1);
+
+ffcNM = cell(7,1);
+ffcNM{1,1} = NMffcRB;
+ffcNM{2,1} = NMffcCube;
+ffcNM{3,1} = NMffcBeale;
+ffcNM{4,1} = NMffcmBox;
+ffcNM{5,1} = NMffcKO;
+ffcNM{6,1} = NMffcKO2;
+ffcNM{7,1} = NMffcp4v;
+
+accNM = [];
+for i=1:length(fbNM)
+    accNM(i) = computeAccuracy(fb(i),fbNM(i),fbNM0(i));
+end
+
+%% f bests for GPS
+fbGPS = [];
+fbGPS(1) = GPSfbestRB;
+fbGPS(2) = GPSfbestCube;
+fbGPS(3) = GPSfbestBeale;
+fbGPS(4) = GPSfbestmBox;
+fbGPS(5) = GPSfbestKO;
+fbGPS(6) = GPSfbestKO2;
+fbGPS(7) = GPSfbestp4v;
+
+fGPS0 = [];
+fGPS0(1) = GPSfvRB(1,1);
+fGPS0(2) = GPSfvCube(1,1);
+fGPS0(3) = GPSfvBeale(1,1);
+fGPS0(4) = GPSfvmBox(1,1);
+fGPS0(5) = GPSfvKO(1,1);
+fGPS0(6) = GPSfvKO2(1,1);
+fGPS0(7) = GPSfvp4v(1,1);
+
+ffcGPS = cell(7,1);
+ffcGPS{1,1} = GPSffcRB;
+ffcGPS{2,1} = GPSffcCube;
+ffcGPS{3,1} = GPSffcBeale;
+ffcGPS{4,1} = GPSffcmBox;
+ffcGPS{5,1} = GPSffcKO;
+ffcGPS{6,1} = GPSffcKO2;
+ffcGPS{7,1} = GPSffcp4v;
+
+accGPS = [];
+for i=1:length(fbGPS)
+    accGPS(i) = computeAccuracy(fb(i),fbGPS(i),fGPS0(i));
+end
+
+%% f bests for MBD
+fbMBD = [];
+fbMBD(1) = MBDfbestRB;
+fbMBD(2) = MBDfbestCube;
+fbMBD(3) = MBDfbestBeale;
+fbMBD(4) = MBDfbestmBox;
+fbMBD(5) = MBDfbestKO;
+fbMBD(6) = MBDfbestKO2;
+fbMBD(7) = MBDfbestp4v;
+
+fMBD0 = [];
+fbMBD0(1) = MBDfvRB(1,1);
+fbMBD0(2) = MBDfvCube(1,1);
+fbMBD0(3) = MBDfvBeale(1,1);
+fbMBD0(4) = MBDfvmBox(1,1);
+fbMBD0(5) = MBDfvKO(1,1);
+fbMBD0(6) = MBDfvKO2(1,1);
+fbMBD0(7) = MBDfvp4v(1,1);
+
+ffcMBD = cell(7,1);
+ffcMBD{1,1} = MBDffcRB;
+ffcMBD{2,1} = MBDffcCube;
+ffcMBD{3,1} = MBDffcBeale;
+ffcMBD{4,1} = MBDffcmBox;
+ffcMBD{5,1} = MBDffcKO;
+ffcMBD{6,1} = MBDffcKO2;
+ffcMBD{7,1} = MBDffcp4v;
+
+accMBD = [];
+for i=1:length(fbMBD)
+    accMBD(i) = computeAccuracy(fb(i),fbMBD(i),fbMBD0(i));
+end
+
+
+%%% Min Function Calls Evaluations
+fcMin = [];
+% for i=1:size(ffcNM,1)
+%     fcMin(i) = min([size(ffcNM{i,1},2),size(ffcGPS{i,1},2),size(ffcMBD{i,1},2)]);
+% end
+fcMin = 10*ones(7,1);
+
+accNMa = [];
+accGPSa = [];
+accMBDa = [];
+for i=1:size(ffcNM,1)
+    for a=1:25
+        if size(ffcNM{i,1},2)>= a*fcMin(i)
+            fbaNM = ffcNM{i,1}(a*fcMin(i));
+        end
+        if size(ffcGPS{i,1},2)>= a*fcMin(i)
+            fbaGPS = ffcGPS{i,1}(a*fcMin(i));
+        end
+        if size(ffcMBD{i,1},2)>= a*fcMin(i)
+            fbaMBD = ffcMBD{i,1}(a*fcMin(i));
+        end
+        accNMa(i,a) = computeAccuracy(fb(i),fbaNM,fbNM0(i));
+        accGPSa(i,a) = computeAccuracy(fb(i),fbaGPS,fGPS0(i));
+        accMBDa(i,a) = computeAccuracy(fb(i),fbaMBD,fbMBD0(i));
+    end
+end
+tNM = computeTap(accNMa,tao);
+tGPS = computeTap(accGPSa,tao);
+tMBD = computeTap(accMBDa,tao);
+
+pfNM = sum(tNM);
+pfGPS = sum(tGPS);
+pfMBD = sum(tMBD);
+
+ppNM = (pfNM/7)*100;
+ppGPS = (pfGPS/7)*100;
+ppMBD = (pfMBD/7)*100;
+
+alphaVec = 1:length(tNM);
+%% plot Performance Profile
+figure, hold on
+plot(alphaVec,ppNM,'-*','Linewidth',2);
+plot(alphaVec,ppGPS,'-s','Linewidth',2);
+plot(alphaVec,ppMBD,'-d','Linewidth',2);
+xlabel('Ratio of function evaluations')
+ylabel('Portion of Problem solved')
+title('Performance Profile tau = 10%, fbest = 10 eval')
+legend('Nelder Mead','GPS','MBD','location','southeast')
+hold off
+
+%% ----------------- Data Profile ---------------------------------------%%
+accNMd = [];
+accGPSd = [];
+accMBDd = [];
+
+pd = [2,2,2,3,4,4,4];
+
+for i=1:size(ffcNM,1)
+   for k=1:50
+        if size(ffcNM{i,1},2)>= k*pd(i)
+            fbaNM = ffcNM{i,1}(k*pd(i));
+        end
+        if size(ffcGPS{i,1},2)>= k*pd(i)
+            fbaGPS = ffcGPS{i,1}(k*pd(i));
+        end
+        if size(ffcMBD{i,1},2)>= k*pd(i)
+            fbaMBD = ffcMBD{i,1}(k*pd(i));
+        end
+        accNMa(i,k) = computeAccuracy(fb(i),fbaNM,fbNM0(i));
+        accGPSa(i,k) = computeAccuracy(fb(i),fbaGPS,fGPS0(i));
+        accMBDa(i,k) = computeAccuracy(fb(i),fbaMBD,fbMBD0(i));
+    end
+end
+
+tNM = computeTap(accNMa,tao);
+tGPS = computeTap(accGPSa,tao);
+tMBD = computeTap(accMBDa,tao);
+
+dfNM = sum(tNM);
+dfGPS = sum(tGPS);
+dfMBD = sum(tMBD);
+
+dpNM = (dfNM/7)*100;
+dpGPS = (dfGPS/7)*100;
+dpMBD = (dfMBD/7)*100;
+
+kVec = 1:length(tNM);
+%% plot Data Profile
+figure, hold on
+plot(kVec,dpNM,'-*','Linewidth',2);
+plot(kVec,dpGPS,'-s','Linewidth',2);
+plot(kVec,dpMBD,'-d','Linewidth',2);
+xlabel('Groups of np+1 evaluations*k')
+ylabel('Portion of Problem solved')
+title('Data Profile tau = 10%')
+legend('Nelder Mead','GPS','MBD','location','southeast')
+hold off
+
+%% ------------------- Accuracy Profile --------------------------------%%
+for i=1:size(ffcNM,1)
+        fbaNM = ffcNM{i,1}(end);
+        fbaGPS = ffcGPS{i,1}(end);
+        fbaMBD = ffcMBD{i,1}(end);
+        accNMap(i) = computeAccuracy(fb(i),fbaNM,fbNM0(i));
+        accGPSap(i) = computeAccuracy(fb(i),fbaGPS,fGPS0(i));
+        accMBDap(i) = computeAccuracy(fb(i),fbaMBD,fbMBD0(i));
+end
+
+for tao=0:10
+    logaccNMa(:,tao+1) = (log10(accNMap) >= tao)';
+    logaccGPSa(:,tao+1) = (log10(accGPSap) >= tao)';
+    logaccMBDa(:,tao+1) = (log10(accMBDap) >= tao)';
+end
+
+apNM = sum(logaccNMa);
+apGPS = sum(logaccGPSa);
+apMBD = sum(logaccMBDa);
+
+taoVec = 1:length(apNM);
+%% plot Accuracy Profile
+figure, hold on
+plot(taoVec,apNM,'-*','Linewidth',2);
+plot(taoVec,apGPS,'-s','Linewidth',2);
+plot(taoVec,apMBD,'-d','Linewidth',2);
+xlabel('Groups of np+1 evaluations*k')
+ylabel('Portion of Problem solved')
+title('Accuracy Profile')
+legend('Nelder Mead','GPS','MBD','location','southeast')
+hold off
+
+function [Tap] = computeTap(accmat,tao)
+Tap = (accmat >= (1-tao));
+end
+
+
+function[acc] = computeAccuracy(fb,fbAlg,fx0)
+acc = (fbAlg-fx0)./(fb-fx0);
+end
