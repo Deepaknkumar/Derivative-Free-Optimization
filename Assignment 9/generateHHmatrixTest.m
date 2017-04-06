@@ -1,8 +1,8 @@
 % Test Vectors
 v1 = [3;-4];
-v2 = [-4;-3];
-v3 = [-3;-4;12];
-v4 = [-2,-2,3,3]';
+v2 = [-4;-3];   %% 8.10 (a)
+v3 = [-3;-4;12];    %% 8.10 (b)
+v4 = [-2,-2,3,3]';  %% 8.10 (c)
 
 % Expected Outputs
 expected_HHm1 = [7/25,24/25;24/25,-7/25];
@@ -13,18 +13,18 @@ expected_HHm4 = [0.692307692307692,-0.307692307692308,0.461538461538462,0.461538
 % Preconditions
 tol = 1e-6;
 
-%% Test 1: Vector v1 Test
+%% Test 1: Vector v1 Test 
 [HHm1] = generateHHmatrix(v1);
 assert((sum(sum(abs(HHm1-expected_HHm1)))) <= tol,'Vector v1 case failed.');
 
-%% Test 2: Vector v2 Test
+%% Test 2: Vector v2 Test (8.10 (a))
 [HHm2] = generateHHmatrix(v2);
 assert((sum(sum(abs(HHm2-expected_HHm2)))) <= tol,'Vector v2 case failed.');
 
-%% Test 3: Vector v3 Test
+%% Test 3: Vector v3 Test (8.10 (b))
 [HHm3] = generateHHmatrix(v3);
 assert((sum(sum(abs(HHm3-expected_HHm3)))) <= tol,'Vector v3 case failed.');
 
-%% Test 4: Vector v4 Test
+%% Test 4: Vector v4 Test (8.10 (c))
 [HHm4] = generateHHmatrix(v4);
 assert((sum(sum(abs(HHm4-expected_HHm4)))) <= tol,'Vector v4 case failed.');
