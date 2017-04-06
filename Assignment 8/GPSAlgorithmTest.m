@@ -8,6 +8,8 @@ x2_0 = [0.6;0.7];
 delta2_0 = 1/2;
 maxiter2 = 100;
 minf_expected = -0.0185;
+
+
 % Preconditions
 tol = 1e-6;
 
